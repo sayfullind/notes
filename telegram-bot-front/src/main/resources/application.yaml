@@ -1,7 +1,7 @@
 bot:
-  token: 6706121039:AAEYJR8H-fIr8rx6sHJ7eETU3QotsD0K9SQ
-  name: Notes
+  token: "${env.BOT_TOKEN}"
+  name: "${env.BOT_NAME}"
 
 broker:
-  update-queue: update-queue
-  send-message-queue: send-message-queue
+  update-queue: "${env.UPDATE_QUEUE}"
+  send-message-queue: "${env.SEND_MESSAGE_QUEUE}"

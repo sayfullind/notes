@@ -1,7 +1,7 @@
 
-.db-data
+.database-data
 .pgadmin-data
-.rabbitmq
+.rabbitmq-data
 
 target/
 !.mvn/wrapper/maven-wrapper.jar

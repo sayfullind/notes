@@ -1,7 +1,5 @@
 package ru.macloud.telegram_bot_front.bot;
 
-import jakarta.annotation.PostConstruct;
-
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 

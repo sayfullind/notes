@@ -8,8 +8,8 @@ services:
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     volumes:
       - ./.database-data:/var/lib/postgresql/data
 
@@ -52,4 +52,26 @@ services:
     environment:
       - SERVER_PORT=8080
       - SPRING_DATASOURCE_URL=jdbc:postgresql://database/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWIRD=postgres
+      - SPRING_DATA_REST_BASE_PATH=api/v1
+
+  telegram-bot-front:
+    container_name: telegram-bot-front
+    build:
+      context: telegram-bot-front
+      dockerfile: Dockerfile
+    image: telegram-bot-front:v1
+    ports:
+      - 8081:8081
+    depends_on:
+      - broker
+      - rest-api
+    environment:
+      - SERVER_PORT=8081
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - BOT_TOKEN=6706121039:AAEYJR8H-fIr8rx6sHJ7eETU3QotsD0K9SQ
+      - BOT_NAME=Notes
+      - BROKER_UPDATE_QUEUE=bot-update-queue
+      - BROKER_SEND_MESSAGE_QUEUE=bot-send-message-queue
 

@@ -16,7 +16,9 @@ public class UpdateListenerImpl implements UpdateListener {
 
     @Override
     public void handleUpdate(Update update) {
-        this.template.convertAndSend(updateQueue.getName(), update);
+        this.template.convertAndSend(
+                updateQueue.getName(), update
+        );
     }
 
 }
