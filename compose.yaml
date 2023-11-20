@@ -6,7 +6,7 @@ services:
     restart: always
     hostname: localhost
     ports:
-      - "5432:5432"
+      - 5432:5432
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -19,7 +19,7 @@ services:
     restart: always
     user: root
     ports:
-      - "5050:80"
+      - 5050:80
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@mail.com
       PGADMIN_DEFAULT_PASSWORD: admin
@@ -27,11 +27,41 @@ services:
       - ./.pgadmin-data:/var/lib/pgadmin
 
   broker:
+    container_name: rabbitmq
     image: rabbitmq:management
     restart: always
     ports:
-      - "15672:15672"
-      - "5672:5672"
+      - 5672:5672
+      - 15672:15672
     volumes:
       - ./.rabbitmq-data:/var/lib/rabbitmq
+      - ./.rabbitmq-data/:/opt/definitions.json
+      - ./.rabbitmq-data/:/etc/rabbitmq/rabbitmq.config
 
+  rest-api:
+    container_name: rest-api
+    build:
+      context: rest-api
+      dockerfile: Dockerfile
+    image: rest-api:v1
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
+    environment:
+      - SERVER_PORT=8080
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database/postgres
+
+  telegram-bot-front:
+    container_name: telegram-bot-front
+    build:
+      context: telegram-bot-front
+      dockerfile: Dockerfile
+    image: telegram-bot-front:v1
+    ports:
+      - 8081:8081
+    depends_on:
+      - broker
+    environment:
+      - SERVER_PORT=8081
+      - SPRING_RABBITMQ_HOST=rabbitmq

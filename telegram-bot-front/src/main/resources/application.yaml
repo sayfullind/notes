@@ -1,0 +1,7 @@
+bot:
+  token: 6706121039:AAEYJR8H-fIr8rx6sHJ7eETU3QotsD0K9SQ
+  name: Notes
+
+broker:
+  update-queue: update-queue
+  send-message-queue: send-message-queue
