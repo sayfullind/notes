@@ -1,25 +1,22 @@
-package ru.macloud.telegram_bot_front.receiver;
+package ru.macloud.telegram_bot_front.broker.impl;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import ru.macloud.telegram_bot_front.bot.Bot;
+import ru.macloud.telegram_bot_front.bot.BotService;
+import ru.macloud.telegram_bot_front.broker.MessageConsumer;
 
 @Component
 @RequiredArgsConstructor
 @RabbitListener (queues = "${broker.send-message-queue}")
-public class MessageReceiverImpl {
+public class MessageConsumerImpl implements MessageConsumer {
 
-    private final Bot bot;
-
-    @SneakyThrows
+    private final BotService service;
+    @Override
     @RabbitHandler
-    public void receiveMessage(SendMessage message) {
-        bot.execute(
-                message
-        );
+    public void recieveMessage(SendMessage message) {
+        service.send(message);
     }
 }

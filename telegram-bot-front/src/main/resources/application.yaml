@@ -1,7 +1,7 @@
 bot:
-  token: "${env.BOT_TOKEN}"
-  name: "${env.BOT_NAME}"
+  token: 6868021247:AAHWz9cYphJ5zSKEWNpc-ITGNX2In8_0Mw
+  name: test
 
 broker:
-  update-queue: "${env.UPDATE_QUEUE}"
-  send-message-queue: "${env.SEND_MESSAGE_QUEUE}"
+  update-queue: test-update-queue
+  send-message-queue: test-send-message-queue

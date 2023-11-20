@@ -1,4 +1,4 @@
-package ru.macloud.telegram_bot_front.config;
+package ru.macloud.telegram_bot_front.bot;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
