@@ -1,7 +1,6 @@
 package ru.macloud.rest_api.entities;
 
 import jakarta.persistence.*;
-
 import lombok.*;
 
 @Getter
