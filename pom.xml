@@ -11,6 +11,7 @@
     <modules>
         <module>rest-api</module>
         <module>telegram-bot-front</module>
+        <module>telegram-update-receiver</module>
     </modules>
 
     <properties>

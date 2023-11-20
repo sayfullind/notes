@@ -1,7 +1,7 @@
 services:
 
   database:
-    container_name: postgres-local
+    container_name: database
     image: postgres
     restart: always
     hostname: localhost
@@ -11,10 +11,11 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     volumes:
-      - ./.database-data:/var/lib/postgresql/data
+      - ./init-database.sql:/docker-entrypoint-initdb.d/init-database.sql
+      - ./.services-data/.database:/var/lib/postgresql/data
 
   pgadmin:
-    container_name: pgadmin_container
+    container_name: pgadmin
     image: dpage/pgadmin4
     restart: always
     user: root
@@ -24,7 +25,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@mail.com
       PGADMIN_DEFAULT_PASSWORD: admin
     volumes:
-      - ./.pgadmin-data:/var/lib/pgadmin
+      - ./.services-data/.pgadmin-data:/var/lib/pgadmin
 
   broker:
     container_name: rabbitmq
@@ -34,9 +35,9 @@ services:
       - 5672:5672
       - 15672:15672
     volumes:
-      - ./.rabbitmq-data:/var/lib/rabbitmq
-      - ./.rabbitmq-data/:/opt/definitions.json
-      - ./.rabbitmq-data/:/etc/rabbitmq/rabbitmq.config
+      - ./.services-data/.rabbitmq-data:/var/lib/rabbitmq
+      - ./.services-data/.rabbitmq-data/:/opt/definitions.json
+      - ./.services-data/.rabbitmq-data/:/etc/rabbitmq/rabbitmq.config
 
   rest-api:
     container_name: rest-api
@@ -48,10 +49,9 @@ services:
       - 8080:8080
     depends_on:
       - database
-      - pgadmin
     environment:
       - SERVER_PORT=8080
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://database/postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database/notes
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWIRD=postgres
       - SPRING_DATA_REST_BASE_PATH=api/v1
@@ -66,7 +66,6 @@ services:
       - 8081:8081
     depends_on:
       - broker
-      - rest-api
     environment:
       - SERVER_PORT=8081
       - SPRING_RABBITMQ_HOST=rabbitmq
@@ -74,4 +73,3 @@ services:
       - BOT_NAME=Notes
       - BROKER_UPDATE_QUEUE=bot-update-queue
       - BROKER_SEND_MESSAGE_QUEUE=bot-send-message-queue
-
