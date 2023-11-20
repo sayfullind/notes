@@ -4,6 +4,12 @@ spring:
     username: postgres
     password: postgres
     url: jdbc:postgresql://localhost:5432/postgres
-
-app:
-  note-rest-mapping: /note-api/v1/
+  data:
+    rest:
+      detection-strategy: annotated
+      return-body-on-create: true
+      return-body-on-update: true
+      base-path: api/v1
+  jpa:
+    open-in-view: false
+    show-sql: true

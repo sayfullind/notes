@@ -48,20 +48,8 @@ services:
       - 8080:8080
     depends_on:
       - database
+      - pgadmin
     environment:
       - SERVER_PORT=8080
       - SPRING_DATASOURCE_URL=jdbc:postgresql://database/postgres
 
-  telegram-bot-front:
-    container_name: telegram-bot-front
-    build:
-      context: telegram-bot-front
-      dockerfile: Dockerfile
-    image: telegram-bot-front:v1
-    ports:
-      - 8081:8081
-    depends_on:
-      - broker
-    environment:
-      - SERVER_PORT=8081
-      - SPRING_RABBITMQ_HOST=rabbitmq
